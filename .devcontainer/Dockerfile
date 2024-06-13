@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/rust:1-1-bullseye
+FROM mcr.microsoft.com/devcontainers/rust:0.202.9-bullseye
 
 RUN sudo apt-get update -y \
     && sudo apt-get upgrade -y 
@@ -28,10 +28,3 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 # Multi-platform SAM CLI. https://github.com/aws/aws-sam-cli/issues/3908
 RUN apt-get install -y pip && pip install aws-sam-cli
-
-# Install specific GLIBC versions
-RUN apt-get install -y software-properties-common \
-    && wget -qO - https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xF6BC817356A3D45E | gpg --dearmor -o /usr/share/keyrings/ubuntu-toolchain-r-archive.gpg \
-    && echo "deb [signed-by=/usr/share/keyrings/ubuntu-toolchain-r-archive.gpg] http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu focal main" | tee /etc/apt/sources.list.d/ubuntu-toolchain-r-test.list \
-    && apt-get update \
-    && apt-get install -y libc6=2.34-0ubuntu5 libc6-dev=2.34-0ubuntu5
