@@ -3,11 +3,11 @@ FROM mcr.microsoft.com/devcontainers/rust:1-1-bullseye
 RUN sudo apt-get update -y \
     && sudo apt-get upgrade -y 
 
-RUN sudo apt-get install -y --fix-missing zip 
+
 
 RUN sudo apt-get update -y \
     && sudo apt-get upgrade -y \
-    && sudo apt-get install -y zip ltrace
+    && sudo apt-get install -y --fix-missing zip ltrace
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN rustup update \
@@ -28,3 +28,9 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 # Multi-platform SAM CLI. https://github.com/aws/aws-sam-cli/issues/3908
 RUN apt-get install -y pip && pip install aws-sam-cli
+
+# Install specific GLIBC versions
+RUN apt-get install -y software-properties-common \
+    && add-apt-repository ppa:ubuntu-toolchain-r/test \
+    && apt-get update \
+    && apt-get install -y libc6=2.34-0ubuntu5 libc6-dev=2.34-0ubuntu5
